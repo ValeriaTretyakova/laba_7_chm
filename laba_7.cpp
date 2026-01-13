@@ -26,7 +26,6 @@ struct Filters {
     vector<double> g;  // высокочастотный фильтр (вейвлет)
 };
 
-/* ================= ФУНКЦИИ ДЛЯ РАБОТЫ С ФАЙЛАМИ ================= */
 
 void saveTxt(const string& filename, const vector<double>& data) {
     ofstream f(filename);
@@ -239,8 +238,6 @@ int main() {
 
     auto runMRA = [&](string name, const Filters& f) {
         cout << "\nВейвлет " << name << ":" << endl;
-        cout << "----------------------------------------" << endl;
-
         vector<double> cur = z;
         for (int j = 1; j <= 4; j++) {
             vector<double> l, h;
@@ -362,3 +359,4 @@ int main() {
     return 0;
 
 }
+
