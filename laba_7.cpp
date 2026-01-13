@@ -13,8 +13,6 @@ using namespace std;
 
 const double PI = 3.14159265358979323846;
 
-/* ================= ПАРАМЕТРЫ ================= */
-
 const int n = 9;
 const int N = 1 << n; // 512 точек
 const double A = 2.94;
@@ -22,8 +20,6 @@ const double B = 0.27;
 const double w1 = 2.0;     // первая частота
 const double w2 = 197.0;   // вторая частота
 const double sigma_noise = 197.0; // стандартное отклонение шума
-
-/* ================= ОПРЕДЕЛЕНИЯ ДЛЯ ФИЛЬТРОВ ================= */
 
 struct Filters {
     vector<double> h;  // низкочастотный фильтр (масштабирующая функция)
@@ -44,9 +40,6 @@ void saveTxt(const string& filename, const vector<double>& data) {
     }
     f.close();
 }
-
-/* ================= ФИЛЬТРЫ ДЛЯ ВЕЙВЛЕТОВ ================= */
-
 // Фильтры Хаара
 Filters getHaar() {
     Filters f;
@@ -77,8 +70,6 @@ Filters getD6() {
     };
     return f;
 }
-
-/* ================= ОСНОВНЫЕ ФУНКЦИИ ДЕКОМПОЗИЦИИ ================= */
 
 // Свертка с фильтром и децимация
 vector<double> convolveAndDownsample(const vector<double>& signal, const vector<double>& filter) {
@@ -125,9 +116,6 @@ vector<double> reconstructFIR(const vector<double>& coeffs, const Filters& f) {
 
     return result;
 }
-
-/* ================= ОСОБАЯ ОБРАБОТКА ДЛЯ ШЕННОНА ================= */
-
 void processShannon(const vector<double>& signal) {
     int current_size = signal.size();
     vector<double> current = signal;
@@ -211,8 +199,6 @@ void processShannon(const vector<double>& signal) {
     }
 }
 
-/* ================= ОСНОВНАЯ ПРОГРАММА ================= */
-
 int main() {
 
     system("COLOR F0");
@@ -248,16 +234,8 @@ int main() {
 
     saveTxt("signal.txt", z);
 
-    cout << "========================================" << endl;
+
     cout << "4-ЭТАПНЫЙ ВЕЙВЛЕТ-АНАЛИЗ СИГНАЛА" << endl;
-    cout << "========================================" << endl;
-    cout << "Параметры задачи:" << endl;
-    cout << "  n = " << n << ", N = 2^n = " << N << endl;
-    cout << "  A = " << A << ", B = " << B << endl;
-    cout << "  w1 = " << w1 << ", w2 = " << w2 << endl;
-    cout << "  σ_шума = " << sigma_noise << endl;
-    cout << "  Режим: " << (isTask6 ? "Задание 6" : "Задания 2-5") << endl;
-    cout << "========================================" << endl;
 
     auto runMRA = [&](string name, const Filters& f) {
         cout << "\nВейвлет " << name << ":" << endl;
@@ -306,7 +284,6 @@ int main() {
 
     // Шеннон (особая обработка)
     cout << "\nВейвлет Шеннон:" << endl;
-    cout << "----------------------------------------" << endl;
     processShannon(z);
 
     // Переименовываем файлы Шеннона для единообразия
@@ -368,9 +345,6 @@ int main() {
         saveTxt("shannon_a4.txt", data);
     }
 
-    cout << "\n\n========================================" << endl;
-    cout << "ВЫЧИСЛЕНИЯ ЗАВЕРШЕНЫ!" << endl;
-    cout << "========================================" << endl;
     cout << "Созданы файлы:" << endl;
     cout << "  signal.txt - исходный сигнал" << endl;
 
@@ -384,10 +358,7 @@ int main() {
         }
     }
 
-    cout << "========================================" << endl;
-    cout << "Запустите Python скрипт для построения графиков." << endl;
-    cout << "========================================" << endl;
-
     cout << (isTask6 ? "\nПункт 6 выполнен!" : "\nПункты 2-5 выполнены!") << endl;
     return 0;
+
 }
